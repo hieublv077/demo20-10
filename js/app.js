@@ -764,13 +764,13 @@ function triggerFlowerBloom(e) {
   }, 700);
 }
 
-// Mở tấm thiệp chúc mừng (Êm đềm, không phát âm thanh đọc chữ)
+// Mở tấm thiệp chúc mừng (Êm đềm, mượt mà tuyệt đối)
 function openCardModal() {
   modalBackdrop.classList.add('active');
   cardModal.classList.add('active');
 
-  // Khởi động gõ chữ
-  startTypewriter(AppState.msg);
+  // Xuất hiện lời chúc phong cách lãng mạn, êm ái không giật lag
+  revealWishText(AppState.msg);
 }
 
 function closeCardModal() {
@@ -780,22 +780,18 @@ function closeCardModal() {
   startPolaroidRain();
 }
 
-// Hiệu ứng máy gõ chữ mượt mà (chạy êm ái, không phát tiếng bíp)
-function startTypewriter(text) {
+// Phong cách xuất hiện lời chúc mượt mà, ánh sáng hồng kim lướt nhẹ
+function revealWishText(text) {
   if (AppState.typewriterTimeout) clearTimeout(AppState.typewriterTimeout);
-  cardWishText.innerHTML = '';
-  let i = 0;
-
-  function typeChar() {
-    if (i < text.length) {
-      const char = text.charAt(i);
-      cardWishText.innerHTML += char === '\n' ? '<br>' : char;
-      i++;
-      AppState.typewriterTimeout = setTimeout(typeChar, 32);
-    }
-  }
-
-  typeChar();
+  
+  cardWishText.classList.remove('reveal', 'shimmer');
+  cardWishText.textContent = text;
+  
+  requestAnimationFrame(() => {
+    setTimeout(() => {
+      cardWishText.classList.add('reveal', 'shimmer');
+    }, 120);
+  });
 }
 
 // ==========================================================================
@@ -890,7 +886,10 @@ function shootRoses() {
 }
 
 function replayWish() {
-  startTypewriter(AppState.msg);
+  SoundFX.roseSparkle();
+  cardWishText.classList.remove('reveal', 'shimmer');
+  void cardWishText.offsetWidth; // Force reflow to re-trigger smooth shimmer
+  cardWishText.classList.add('reveal', 'shimmer');
 }
 
 // Toast thông báo nhỏ

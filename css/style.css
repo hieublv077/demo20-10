@@ -1995,24 +1995,47 @@ html, body {
   background: #ff3366;
 }
 
-/* Lời chúc bên dưới */
 .card-wish-box {
-  background: rgba(255, 240, 245, 0.7);
+  background: rgba(255, 240, 245, 0.75);
   border: 1px dashed #ff758f;
-  border-radius: 14px;
-  padding: 14px 16px;
+  border-radius: 16px;
+  padding: 16px 18px;
   margin-bottom: 14px;
   position: relative;
+  box-shadow: inset 0 2px 8px rgba(255, 117, 143, 0.08);
 }
 
 .card-text {
-  color: #441221;
-  font-size: 14px;
-  line-height: 1.65;
+  color: #3b0c1c;
+  font-size: 14.5px;
+  line-height: 1.7;
   text-align: center;
-  min-height: 75px;
+  min-height: 70px;
   white-space: pre-line;
-  font-weight: 500;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  opacity: 0;
+  transform: translateY(12px) scale(0.98);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card-text.reveal {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Hiệu ứng ánh sáng hồng kim lộng lẫy quét mượt mà qua các dòng chữ */
+.card-text.shimmer {
+  background: linear-gradient(120deg, #3b0c1c 0%, #3b0c1c 35%, #ff2a6d 50%, #3b0c1c 65%, #3b0c1c 100%);
+  background-size: 250% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: wishShimmerSweep 2.2s cubic-bezier(0.4, 0, 0.2, 1) 1;
+}
+
+@keyframes wishShimmerSweep {
+  0% { background-position: 250% center; }
+  100% { background-position: -250% center; }
 }
 
 .cursor-blink {
