@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Khung Mã QR 20-10 Dành Tặng Mẹ Kính Yêu 💖</title>
+  
+  <meta name="description" content="Khung hình thiệp mã QR mừng ngày Phụ nữ Việt Nam 20-10 dành riêng cho Mẹ yêu.">
+  <meta property="og:title" content="Khung Mã QR 20-10 Dành Tặng Mẹ Kính Yêu 🌹">
+  <meta property="og:image" content="assets/khung_qr_tang_me.jpg">
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@500;600;700&family=Playfair+Display:ital,wght@0,700;1,600&display=swap">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at 50% 20%, #2d0b2e 0%, #1a0826 60%, #0a0312 100%);
+      font-family: 'Montserrat', sans-serif;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 24px 16px 40px;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Bụi sao và cánh hoa rơi lấp lánh nền */
+    .sparkle-bg {
+      position: fixed;
+      inset: 0;
+      background-image: 
+        radial-gradient(2px 2px at 20px 30px, #ffd166, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 40px 70px, #ffffff, rgba(0,0,0,0)),
+        radial-gradient(1px 1px at 90px 40px, #ff758f, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 160px 120px, #ffd166, rgba(0,0,0,0));
+      background-repeat: repeat;
+      background-size: 200px 200px;
+      opacity: 0.35;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .container {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 480px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .page-title {
+      font-family: 'Dancing Script', cursive;
+      font-size: 32px;
+      color: #ffccd5;
+      text-shadow: 0 0 15px rgba(255, 117, 143, 0.8);
+      margin-bottom: 6px;
+      text-align: center;
+    }
+
+    .page-sub {
+      font-size: 13px;
+      color: #ffb3c1;
+      text-align: center;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    /* Khung tranh ảnh QR Card nổi bật */
+    .qr-frame-wrapper {
+      position: relative;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 209, 102, 0.4);
+      border-radius: 28px;
+      padding: 12px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(255, 51, 102, 0.35);
+      transition: transform 0.3s ease;
+    }
+
+    .qr-frame-wrapper:hover {
+      transform: translateY(-3px);
+    }
+
+    .qr-img {
+      width: 100%;
+      height: auto;
+      border-radius: 20px;
+      display: block;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35);
+    }
+
+    /* Nút hành động */
+    .action-group {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 14px 20px;
+      border-radius: 50px;
+      font-size: 15px;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: all 0.25s ease;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    .btn-download {
+      background: linear-gradient(135deg, #ff2a6d, #ff758f, #ffb3c1);
+      color: #fff;
+      box-shadow: 0 10px 30px rgba(255, 42, 109, 0.5), 0 0 20px rgba(255, 117, 143, 0.4);
+    }
+
+    .btn-download:hover {
+      transform: scale(1.02);
+      box-shadow: 0 14px 35px rgba(255, 42, 109, 0.7);
+    }
+
+    .btn-download:active {
+      transform: scale(0.98);
+    }
+
+    .btn-open {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffd166;
+      border: 1px solid rgba(255, 209, 102, 0.5);
+      backdrop-filter: blur(8px);
+    }
+
+    .btn-open:hover {
+      background: rgba(255, 209, 102, 0.2);
+      transform: scale(1.02);
+    }
+
+    .hint-box {
+      margin-top: 20px;
+      background: rgba(20, 5, 25, 0.6);
+      border: 1px dashed rgba(255, 117, 143, 0.4);
+      border-radius: 16px;
+      padding: 14px 18px;
+      font-size: 12.5px;
+      color: #ffe5ec;
+      line-height: 1.6;
+      text-align: center;
+    }
+
+    .hint-box strong {
+      color: #ffd166;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="sparkle-bg"></div>
+
+  <main class="container">
+    <h1 class="page-title">🌸 Món Quà 20-10 Ý Nghĩa 💖</h1>
+    <p class="page-sub">Khung ảnh thiệp mã QR được thiết kế riêng với chùm bóng 3D và hoa hồng rực rỡ</p>
+
+    <!-- Khung mã QR chất lượng cao -->
+    <div class="qr-frame-wrapper">
+      <img class="qr-img" src="assets/khung_qr_20_10.png" alt="Khung mã QR 20-10 Ý Nghĩa">
+    </div>
+
+    <!-- Nhóm nút tải và xem -->
+    <div class="action-group">
+      <a class="btn btn-download" href="assets/khung_qr_20_10.png" download="Khung_QR_20_10.png">
+        <span>📥 Tải Ảnh Khung QR Về Điện Thoại (HD)</span>
+      </a>
+
+      <a class="btn btn-open" href="index.html">
+        <span>🎁 Trải Nghiệm Món Quà Trực Tiếp</span>
+      </a>
+    </div>
+
+    <!-- Hướng dẫn sử dụng -->
+    <div class="hint-box">
+      <strong>💡 Cách tặng quà bằng mã QR:</strong><br>
+      • Bạn hãy <strong>Tải ảnh về máy</strong> rồi gửi trực tiếp qua Zalo / Messenger.<br>
+      • Hoặc in bức ảnh này ra thiệp đặt cạnh bó hoa / món quà 20-10.<br>
+      • Người nhận chỉ cần <strong>bật Camera điện thoại hoặc Zalo</strong> quét mã là món quà bừng nở kỳ diệu! ✨
+    </div>
+  </main>
+
+</body>
+</html>
