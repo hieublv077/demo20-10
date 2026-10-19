@@ -792,8 +792,6 @@ function startTypewriter(text) {
       cardWishText.innerHTML += char === '\n' ? '<br>' : char;
       i++;
       AppState.typewriterTimeout = setTimeout(typeChar, 32);
-    } else {
-      cardWishText.innerHTML += '<span class="cursor-blink"></span>';
     }
   }
 
