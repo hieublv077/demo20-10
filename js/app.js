@@ -39,10 +39,12 @@ const PHOTO_LIST = [
 // Trích xuất tham số URL
 function getQueryParams() {
   const params = new URLSearchParams(window.location.search);
-  const to = (params.get('to') || 'Người Phụ Nữ Tuyệt Vời').replace(/_/g, ' ');
-  const from = (params.get('from') || 'Con').replace(/_/g, ' ');
-  let msg = params.get('msg');
   const theme = params.get('theme') || 'lover';
+  const defaultTo = theme === 'mom' ? 'Mẹ Kính Yêu' : 'Người Phụ Nữ Tuyệt Vời';
+  const defaultFrom = theme === 'mom' ? 'Con' : 'Friend';
+  const to = (params.get('to') || defaultTo).replace(/_/g, ' ');
+  const from = (params.get('from') || defaultFrom).replace(/_/g, ' ');
+  let msg = params.get('msg');
 
   if (!msg) {
     msg = PRESETS[theme] ? PRESETS[theme].msg : PRESETS.lover.msg;
