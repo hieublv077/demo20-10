@@ -39,8 +39,8 @@ const PHOTO_LIST = [
 // Trích xuất tham số URL
 function getQueryParams() {
   const params = new URLSearchParams(window.location.search);
-  const to = params.get('to') || 'Người Phụ Nữ Tuyệt Vời';
-  const from = params.get('from') || 'Friend';
+  const to = (params.get('to') || 'Người Phụ Nữ Tuyệt Vời').replace(/_/g, ' ');
+  const from = (params.get('from') || 'Con').replace(/_/g, ' ');
   let msg = params.get('msg');
   const theme = params.get('theme') || 'lover';
 
