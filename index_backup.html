@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Món Quà Tình Yêu 💖</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: radial-gradient(circle at 50% 35%, #18222b 0%, #0d1318 60%, #040608 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      overflow: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      position: relative;
+    }
+
+    #sky-canvas {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .music-btn {
+      position: absolute;
+      top: 25px;
+      right: 20px;
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, #ff2a6d, #ff6b8b);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+      z-index: 50;
+      box-shadow: 0 0 18px rgba(255, 42, 109, 0.7);
+      animation: spinMusic 4s linear infinite;
+    }
+    .music-btn.paused { animation-play-state: paused; opacity: 0.65; }
+    @keyframes spinMusic { 100% { transform: rotate(360deg); } }
+
+    .mini-heart {
+      position: absolute;
+      color: #ff4d6d;
+      font-size: 14px;
+      pointer-events: none;
+      z-index: 2;
+      animation: heartFall linear forwards;
+    }
+    @keyframes heartFall {
+      0% { transform: translate3d(0, -20px, 0) scale(0.6); opacity: 0; }
+      20% { opacity: 0.9; }
+      80% { opacity: 0.8; }
+      100% { transform: translate3d(var(--drift), 105vh, 0) scale(1.1); opacity: 0; }
+    }
+
+    /* KHU VỰC BỤI HOA TỰ NHIÊN */
+    .garden {
+      position: relative;
+      width: 320px;
+      height: 420px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      z-index: 10;
+      cursor: pointer;
+      margin-bottom: 25px;
+    }
+
+    /* Đom đóm bay lượn */
+    .glow-dot {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: #fff3b0;
+      border-radius: 50%;
+      box-shadow: 0 0 10px #ffee88, 0 0 18px #ffb703;
+      pointer-events: none;
+      animation: floatDot 4s infinite ease-in-out alternate;
+    }
+    .d1 { top: 120px; left: 130px; animation-duration: 3.5s; }
+    .d2 { top: 160px; left: 60px; animation-duration: 4.2s; }
+    .d3 { top: 140px; right: 70px; animation-duration: 3.8s; }
+
+    @keyframes floatDot {
+      0% { transform: translate(0, 0) scale(0.8); opacity: 0.4; }
+      100% { transform: translate(12px, -20px) scale(1.3); opacity: 1; }
+    }
+
+    /* Thảm cỏ bên dưới đáy */
+    .grass-layer {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 80px;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* TỪNG CÂY HOA (GỒM CÀNH + LÁ + BÔNG LIÊN KẾT CHẶT CHẼ) */
+    .plant {
+      position: absolute;
+      bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transform-origin: bottom center;
+    }
+
+    .plant-center {
+      left: 50%;
+      transform: translateX(-50%);
+      height: 320px;
+      z-index: 4;
+      animation: plantSwayCenter 4.8s infinite ease-in-out;
+    }
+    .plant-left {
+      left: 22%;
+      height: 250px;
+      z-index: 3;
+      animation: plantSwayLeft 4.2s infinite ease-in-out;
+    }
+    .plant-right {
+      right: 20%;
+      height: 275px;
+      z-index: 3;
+      animation: plantSwayRight 4.5s infinite ease-in-out;
+    }
+
+    @keyframes plantSwayCenter {
+      0%, 100% { transform: translateX(-50%) rotate(0deg); }
+      50% { transform: translateX(-50%) rotate(2.5deg); }
+    }
+    @keyframes plantSwayLeft {
+      0%, 100% { transform: rotate(-8deg); }
+      50% { transform: rotate(-13deg); }
+    }
+    @keyframes plantSwayRight {
+      0%, 100% { transform: rotate(8deg); }
+      50% { transform: rotate(13deg); }
+    }
+
+    /* Thân cành cây */
+    .stem {
+      width: 8px;
+      height: 100%;
+      background: linear-gradient(to right, #1b4332, #2d6a4f, #1b4332);
+      border-radius: 4px;
+      position: relative;
+    }
+
+    /* Lá cây gắn chặt vào thân */
+    .leaf {
+      position: absolute;
+      width: 48px;
+      height: 24px;
+      background: linear-gradient(135deg, #52b788, #1b4332);
+      border-radius: 50px 0;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    }
+    .leaf.left {
+      left: -44px;
+      transform: rotate(-15deg);
+    }
+    .leaf.right {
+      right: -44px;
+      transform: scaleX(-1) rotate(-15deg);
+    }
+
+    /* ĐÓA HOA TRÊN ĐỈNH THÂN */
+    .blossom {
+      position: absolute;
+      top: -30px;
+      width: 70px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      filter: drop-shadow(0 0 14px rgba(255, 77, 109, 0.85));
+      animation: breatheFlower 2.8s infinite alternate ease-in-out;
+    }
+    @keyframes breatheFlower {
+      0% { transform: scale(0.95); }
+      100% { transform: scale(1.08); }
+    }
+
+    /* Cánh hoa xòe tự nhiên */
+    .petal-back {
+      position: absolute;
+      width: 24px;
+      height: 16px;
+      background: linear-gradient(to top, #c9184a, #ff758f);
+      border-radius: 50%;
+    }
+    .p-left { transform: translate(-20px, 4px) rotate(-35deg); }
+    .p-right { transform: translate(20px, 4px) rotate(35deg); }
+    .p-top { transform: translate(0, -12px); width: 26px; height: 18px; }
+
+    /* Nhụy hoa vàng phát sáng */
+    .center-core {
+      position: absolute;
+      width: 38px;
+      height: 20px;
+      background: linear-gradient(to bottom, #ffe066, #ffb703);
+      border-radius: 50%;
+      box-shadow: 0 0 10px #ffe066;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 5;
+    }
+    .center-inner {
+      width: 22px;
+      height: 8px;
+      background: #ffffff;
+      border-radius: 50%;
+      opacity: 0.95;
+    }
+
+    .tap-guide {
+      position: absolute;
+      bottom: -15px;
+      font-size: 13.5px;
+      color: #ffd1dc;
+      text-shadow: 0 0 10px rgba(255, 107, 139, 0.7);
+      animation: bounce 1.4s infinite ease-in-out;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+
+    /* BAO THƯ HỒNG BAY LÊN */
+    .envelope-box {
+      position: absolute;
+      top: 42%;
+      left: 50%;
+      width: 175px;
+      height: 115px;
+      background: #ff758f;
+      border-radius: 6px;
+      transform: translate(-50%, -50%) scale(0);
+      opacity: 0;
+      z-index: 30;
+      cursor: pointer;
+      box-shadow: 0 15px 35px rgba(255, 75, 110, 0.45);
+      transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.25), opacity 0.5s ease;
+    }
+    .envelope-box.show {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+    }
+    .envelope-box.open .envelope-flap {
+      transform: rotateX(180deg);
+    }
+    .envelope-flap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 0;
+      border-left: 87.5px solid transparent;
+      border-right: 87.5px solid transparent;
+      border-top: 60px solid #ff4d6d;
+      transform-origin: top;
+      transition: transform 0.5s ease;
+      z-index: 5;
+    }
+    .letter-preview {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      right: 10px;
+      bottom: 10px;
+      background: #fff;
+      border: 2px dashed #ff4d6d;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 800;
+      color: #c9184a;
+      text-align: center;
+      padding: 6px;
+    }
+
+    /* MODAL POPUP THIỆP */
+    .love-card-modal {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.6);
+      width: 90%;
+      max-width: 350px;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 24px;
+      padding: 24px 20px 22px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), 0 0 25px rgba(255, 75, 110, 0.35);
+      z-index: 100;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.5s cubic-bezier(0.34, 1.45, 0.64, 1);
+    }
+    .love-card-modal.active {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .close-btn {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      width: 30px;
+      height: 30px;
+      background: #ff4d6d;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 800;
+      font-size: 14px;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(255, 77, 109, 0.5);
+    }
+    .card-title {
+      font-family: 'Brush Script MT', cursive, sans-serif;
+      font-size: 26px;
+      color: #d81159;
+      text-align: center;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+    .card-img-box {
+      width: 100%;
+      height: 220px;
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 15px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    }
+    .card-img-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .card-text {
+      color: #4a4a4a;
+      font-size: 14px;
+      line-height: 1.65;
+      text-align: center;
+      min-height: 70px;
+      white-space: pre-line;
+      font-weight: 450;
+    }
+
+    /* MƯA ẢNH POLAROID */
+    #polaroid-rain-zone {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 25;
+    }
+    .rain-polaroid {
+      position: absolute;
+      top: -120px;
+      width: 75px;
+      height: 92px;
+      background: white;
+      padding: 5px 5px 16px 5px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.45);
+      border-radius: 4px;
+      animation: polaroidFall linear forwards;
+    }
+    .rain-polaroid img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 2px;
+    }
+    @keyframes polaroidFall {
+      0% { transform: translate3d(0, 0, 0) rotate(0deg); opacity: 0; }
+      15% { opacity: 0.95; }
+      85% { opacity: 0.95; }
+      100% { transform: translate3d(var(--drift-x), 115vh, 0) rotate(var(--rot)); opacity: 0.1; }
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="sky-canvas"></canvas>
+
+  <div class="music-btn" id="musicBtn" onclick="toggleAudio()">🎵</div>
+
+  <div id="polaroid-rain-zone"></div>
+
+  <!-- BỤI HOA 3 BÔNG GẮN CHẶT CHUẨN XÁC VÀO CÀNH -->
+  <div class="garden" onclick="openLoveLetter()">
+    <div class="glow-dot d1"></div>
+    <div class="glow-dot d2"></div>
+    <div class="glow-dot d3"></div>
+
+    <!-- Cây hoa bên trái -->
+    <div class="plant plant-left">
+      <div class="blossom">
+        <div class="petal-back p-left"></div>
+        <div class="petal-back p-right"></div>
+        <div class="petal-back p-top"></div>
+        <div class="center-core"><div class="center-inner"></div></div>
+      </div>
+      <div class="stem">
+        <div class="leaf left" style="top: 35%;"></div>
+        <div class="leaf right" style="top: 60%;"></div>
+      </div>
+    </div>
+
+    <!-- Cây hoa trung tâm (Cao nhất) -->
+    <div class="plant plant-center">
+      <div class="blossom">
+        <div class="petal-back p-left"></div>
+        <div class="petal-back p-right"></div>
+        <div class="petal-back p-top"></div>
+        <div class="center-core"><div class="center-inner"></div></div>
+      </div>
+      <div class="stem">
+        <div class="leaf left" style="top: 25%;"></div>
+        <div class="leaf right" style="top: 45%;"></div>
+        <div class="leaf left" style="top: 70%;"></div>
+      </div>
+    </div>
+
+    <!-- Cây hoa bên phải -->
+    <div class="plant plant-right">
+      <div class="blossom">
+        <div class="petal-back p-left"></div>
+        <div class="petal-back p-right"></div>
+        <div class="petal-back p-top"></div>
+        <div class="center-core"><div class="center-inner"></div></div>
+      </div>
+      <div class="stem">
+        <div class="leaf right" style="top: 30%;"></div>
+        <div class="leaf left" style="top: 55%;"></div>
+      </div>
+    </div>
+
+    <!-- Thảm cỏ đáy nền -->
+    <svg class="grass-layer" viewBox="0 0 320 80">
+      <path d="M 10,80 Q 40,10 60,80 Z" fill="#081c15"/>
+      <path d="M 40,80 Q 70,25 90,80 Z" fill="#1b4332"/>
+      <path d="M 230,80 Q 255,20 275,80 Z" fill="#1b4332"/>
+      <path d="M 260,80 Q 285,10 305,80 Z" fill="#081c15"/>
+    </svg>
+
+    <div class="tap-guide">✨ Chạm nhẹ vào hoa nhận quà nhé ✨</div>
+  </div>
+
+  <!-- Phong thư bay lên -->
+  <div class="envelope-box" id="envelope" onclick="openCardModal()">
+    <div class="envelope-flap"></div>
+    <div class="letter-preview">CHÚC EM 20-10 VUI VẺ 💌</div>
+  </div>
+
+  <!-- Popup thiệp chúc mừng -->
+  <div class="love-card-modal" id="cardModal">
+    <div class="close-btn" onclick="closeCardModal()">✕</div>
+    <div class="card-title">CHÚC EM 20-10 VUI VẺ</div>
+    <div class="card-img-box">
+      <img src="https://images.unsplash.com/photo-1582794543139-8ac9cb0f7b11?w=600&auto=format&fit=crop" alt="Bó hoa 20-10">
+    </div>
+    <div class="card-text" id="cardWishText"></div>
+  </div>
+
+  <audio id="audio" src="https://assets.mixkit.co/music/preview/mixkit-serene-view-443.mp3" loop preload="auto"></audio>
+
+  <script>
+    const wishMsg = "Chúc bé iu 20/10 thật vui vẻ, luôn xinh đẹp, hạnh phúc và được yêu thương thật nhiều nhaaa 🥰💖\nMong anh sẽ luôn là người khiến bé cười thật tươi. Yêu bé nhiều lắmmm 🌹💕";
+
+    // Bầu trời sao đêm
+    const sky = document.getElementById('sky-canvas');
+    const ctx = sky.getContext('2d');
+    let stars = [];
+
+    function setupSky() {
+      sky.width = window.innerWidth;
+      sky.height = window.innerHeight;
+      stars = [];
+      for (let i = 0; i < 80; i++) {
+        stars.push({
+          x: Math.random() * sky.width,
+          y: Math.random() * sky.height,
+          radius: Math.random() * 1.5 + 0.4,
+          alpha: Math.random(),
+          speed: Math.random() * 0.02 + 0.01
+        });
+      }
+    }
+    window.addEventListener('resize', setupSky);
+    setupSky();
+
+    function drawStars() {
+      ctx.clearRect(0, 0, sky.width, sky.height);
+      stars.forEach(s => {
+        s.alpha += s.speed;
+        if (s.alpha > 1 || s.alpha < 0) s.speed = -s.speed;
+        ctx.fillStyle = `rgba(255, 255, 255, ${Math.abs(s.alpha)})`;
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2);
+        ctx.fill();
+      });
+      requestAnimationFrame(drawStars);
+    }
+    drawStars();
+
+    // Tim rơi nền
+    setInterval(() => {
+      const h = document.createElement('div');
+      h.className = 'mini-heart';
+      h.innerText = '💖';
+      h.style.left = Math.random() * 95 + 'vw';
+      const duration = Math.random() * 2 + 4;
+      const drift = (Math.random() - 0.5) * 60;
+      h.style.animationDuration = `${duration}s`;
+      h.style.setProperty('--drift', `${drift}px`);
+      document.body.appendChild(h);
+      setTimeout(() => h.remove(), duration * 1000);
+    }, 450);
+
+    // Âm thanh
+    const audio = document.getElementById('audio');
+    const musicBtn = document.getElementById('musicBtn');
+    let isPlaying = false;
+
+    function toggleAudio() {
+      if (isPlaying) {
+        audio.pause();
+        musicBtn.classList.add('paused');
+      } else {
+        audio.play().catch(() => {});
+        musicBtn.classList.remove('paused');
+      }
+      isPlaying = !isPlaying;
+    }
+
+    // Mở phong thư
+    function openLoveLetter() {
+      if (!isPlaying) toggleAudio();
+      const env = document.getElementById('envelope');
+      env.classList.add('show');
+      setTimeout(() => env.classList.add('open'), 500);
+    }
+
+    // Mở Popup thiệp & gõ chữ
+    let charIndex = 0;
+    function openCardModal() {
+      document.getElementById('cardModal').classList.add('active');
+      charIndex = 0;
+      document.getElementById('cardWishText').innerHTML = '';
+      typeWriter();
+    }
+
+    function typeWriter() {
+      if (charIndex < wishMsg.length) {
+        document.getElementById('cardWishText').innerHTML += wishMsg.charAt(charIndex);
+        charIndex++;
+        setTimeout(typeWriter, 35);
+      }
+    }
+
+    // Đóng thiệp -> Mưa ảnh
+    function closeCardModal() {
+      document.getElementById('cardModal').classList.remove('active');
+      startPolaroidRain();
+    }
+
+    function startPolaroidRain() {
+      const zone = document.getElementById('polaroid-rain-zone');
+      const photoUrls = [
+        'https://images.unsplash.com/photo-1582794543139-8ac9cb0f7b11?w=300',
+        'https://images.unsplash.com/photo-1563245372-f21724e3856d?w=300',
+        'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=300',
+        'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=300'
+      ];
+
+      for (let i = 0; i < 18; i++) {
+        setTimeout(() => {
+          const card = document.createElement('div');
+          card.className = 'rain-polaroid';
+          card.style.left = Math.random() * 85 + 5 + 'vw';
+
+          const img = document.createElement('img');
+          img.src = photoUrls[i % photoUrls.length];
+          card.appendChild(img);
+
+          const duration = Math.random() * 2.5 + 4.5;
+          const driftX = (Math.random() - 0.5) * 80;
+          const rot = (Math.random() - 0.5) * 45;
+
+          card.style.animationDuration = `${duration}s`;
+          card.style.setProperty('--drift-x', `${driftX}px`);
+          card.style.setProperty('--rot', `${rot}deg`);
+
+          zone.appendChild(card);
+          setTimeout(() => card.remove(), duration * 1000);
+        }, i * 280);
+      }
+    }
+  </script>
+</body>
+</html>
