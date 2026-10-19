@@ -2007,35 +2007,50 @@ html, body {
 
 .card-text {
   color: #3b0c1c;
+  font-family: var(--font-sans);
   font-size: 14.5px;
-  line-height: 1.7;
+  line-height: 1.75;
   text-align: center;
-  min-height: 70px;
-  white-space: pre-line;
+  min-height: 75px;
   font-weight: 600;
   letter-spacing: 0.2px;
+}
+
+.wish-line {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.wish-line:last-child {
+  margin-bottom: 0;
+}
+
+.wish-word {
+  display: inline-block;
   opacity: 0;
-  transform: translateY(12px) scale(0.98);
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(7px) scale(0.96);
+  filter: blur(3px);
+  margin-right: 0.28em;
+  animation: smoothWordFade 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: opacity, transform, filter;
 }
 
-.card-text.reveal {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-}
-
-/* Hiệu ứng ánh sáng hồng kim lộng lẫy quét mượt mà qua các dòng chữ */
-.card-text.shimmer {
-  background: linear-gradient(120deg, #3b0c1c 0%, #3b0c1c 35%, #ff2a6d 50%, #3b0c1c 65%, #3b0c1c 100%);
-  background-size: 250% auto;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: wishShimmerSweep 2.2s cubic-bezier(0.4, 0, 0.2, 1) 1;
-}
-
-@keyframes wishShimmerSweep {
-  0% { background-position: 250% center; }
-  100% { background-position: -250% center; }
+@keyframes smoothWordFade {
+  0% {
+    opacity: 0;
+    transform: translateY(7px) scale(0.96);
+    filter: blur(3px);
+    color: #ff3366;
+  }
+  60% {
+    color: #ff3366;
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+    color: #3b0c1c;
+  }
 }
 
 .cursor-blink {

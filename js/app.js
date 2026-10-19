@@ -769,8 +769,8 @@ function openCardModal() {
   modalBackdrop.classList.add('active');
   cardModal.classList.add('active');
 
-  // Xuất hiện lời chúc phong cách lãng mạn, êm ái không giật lag
-  revealWishText(AppState.msg);
+  // Xuất hiện lời chúc từng từ mượt mà, lãng mạn
+  revealWishText(AppState.msg, 240);
 }
 
 function closeCardModal() {
@@ -780,18 +780,44 @@ function closeCardModal() {
   startPolaroidRain();
 }
 
-// Phong cách xuất hiện lời chúc mượt mà, ánh sáng hồng kim lướt nhẹ
-function revealWishText(text) {
+// Phong cách xuất hiện từng từ lãng mạn, mượt mà tuyệt đối không giật lag
+function revealWishText(text, initialDelay = 180) {
   if (AppState.typewriterTimeout) clearTimeout(AppState.typewriterTimeout);
+  cardWishText.innerHTML = '';
   
-  cardWishText.classList.remove('reveal', 'shimmer');
-  cardWishText.textContent = text;
-  
-  requestAnimationFrame(() => {
-    setTimeout(() => {
-      cardWishText.classList.add('reveal', 'shimmer');
-    }, 120);
+  if (!text) return;
+
+  const lines = text.split('\n');
+  let wordIndex = 0;
+  const fragment = document.createDocumentFragment();
+
+  lines.forEach((line) => {
+    const trimmed = line.trim();
+    if (!trimmed) {
+      const spacer = document.createElement('div');
+      spacer.style.height = '8px';
+      fragment.appendChild(spacer);
+      return;
+    }
+
+    const lineContainer = document.createElement('div');
+    lineContainer.className = 'wish-line';
+
+    const words = trimmed.split(/\s+/);
+    words.forEach((word) => {
+      if (!word) return;
+      const span = document.createElement('span');
+      span.className = 'wish-word';
+      span.textContent = word;
+      span.style.animationDelay = `${initialDelay + wordIndex * 80}ms`;
+      lineContainer.appendChild(span);
+      wordIndex++;
+    });
+
+    fragment.appendChild(lineContainer);
   });
+
+  cardWishText.appendChild(fragment);
 }
 
 // ==========================================================================
@@ -887,9 +913,7 @@ function shootRoses() {
 
 function replayWish() {
   SoundFX.roseSparkle();
-  cardWishText.classList.remove('reveal', 'shimmer');
-  void cardWishText.offsetWidth; // Force reflow to re-trigger smooth shimmer
-  cardWishText.classList.add('reveal', 'shimmer');
+  revealWishText(AppState.msg, 60);
 }
 
 // Toast thông báo nhỏ
