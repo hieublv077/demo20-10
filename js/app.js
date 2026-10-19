@@ -658,13 +658,11 @@ function renderFireworks() {
       continue;
     }
 
-    fwCtx.save();
     fwCtx.globalAlpha = p.alpha;
     fwCtx.fillStyle = p.color;
     fwCtx.beginPath();
     fwCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
     fwCtx.fill();
-    fwCtx.restore();
   }
   requestAnimationFrame(renderFireworks);
 }
@@ -703,26 +701,26 @@ function openGift() {
   // Ẩn Intro Stage
   introStage.classList.add('hide');
 
-  // Hiện Vườn hoa & Phong thư
+  // Hiện Vườn hoa
   setTimeout(() => {
     flowerStage.classList.add('active');
     AppState.flowerStageActive = true;
   }, 400);
 
-  // Phong bì bay lên
+  // Sau khi hoa đã vươn lên nở rộ mượt mà, phong thư êm ái bay lên
   setTimeout(() => {
     envelopeBox.classList.add('show');
-  }, 900);
+  }, 1600);
 
   // Mở nắp phong thư
   setTimeout(() => {
     envelopeBox.classList.add('open');
-  }, 1600);
+  }, 2500);
 
   // Mở tấm thiệp chính
   setTimeout(() => {
     openCardModal();
-  }, 2200);
+  }, 3300);
 }
 
 // Chạm vào đóa hoa hồng để kích hoạt hiệu ứng bừng nở rực rỡ

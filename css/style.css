@@ -473,6 +473,7 @@ html, body {
   align-items: flex-end;
   justify-content: center;
   overflow: hidden;
+  contain: layout paint;
 }
 
 /* Vầng hào quang ánh sáng huyền ảo tỏa sáng đồng tâm phía sau phong thư & đóa hoa */
@@ -480,20 +481,20 @@ html, body {
   position: absolute;
   top: 24%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate3d(-50%, -50%, 0);
   width: 320px;
   height: 320px;
   border-radius: 50%;
-  background: radial-gradient(circle at 50% 50%, rgba(255, 107, 139, 0.35) 0%, rgba(255, 209, 102, 0.25) 40%, rgba(82, 183, 136, 0.18) 60%, transparent 75%);
-  filter: blur(28px);
+  background: radial-gradient(circle at 50% 50%, rgba(255, 107, 139, 0.32) 0%, rgba(255, 209, 102, 0.2) 30%, rgba(255, 117, 143, 0.08) 55%, transparent 72%);
   animation: haloPulse 3.5s ease-in-out infinite alternate;
   pointer-events: none;
   z-index: 1;
+  will-change: transform, opacity;
 }
 
 @keyframes haloPulse {
-  0% { transform: translate(-50%, -50%) scale(0.88); opacity: 0.55; }
-  100% { transform: translate(-50%, -50%) scale(1.18); opacity: 0.95; }
+  0% { transform: translate3d(-50%, -50%, 0) scale(0.88); opacity: 0.55; }
+  100% { transform: translate3d(-50%, -50%, 0) scale(1.18); opacity: 0.95; }
 }
 
 /* Vòng sóng xung kích phát sáng khi chạm vào hoa */
@@ -867,8 +868,9 @@ html, body {
   height: 1vmin;
   background-color: #fffb00;
   border-radius: 50%;
-  filter: blur(0.2vmin);
+  box-shadow: 0 0 3px #fffb00;
   animation: light-ans 4s linear infinite backwards;
+  will-change: transform, opacity;
 }
 .flower__light:nth-child(odd) {
   background-color: #ff85a2;
@@ -1489,16 +1491,15 @@ html, body {
   left: 0vmin;
   bottom: -20vmin;
   z-index: 100;
-  filter: blur(0.3vmin);
+  opacity: 0.85;
   transform: scale(0.8) rotate(2deg);
 }
 .long-g--7 {
   left: 35vmin;
   bottom: 20vmin;
   z-index: -1;
-  filter: blur(0.3vmin);
   transform: scale(0.6) rotate(2deg);
-  opacity: 0.7;
+  opacity: 0.65;
 }
 .long-g .leaf {
   --w: 15vmin;
@@ -1583,25 +1584,22 @@ html, body {
 @keyframes light-ans {
   0% {
     opacity: 0;
-    transform: translateY(0vmin);
+    transform: translate3d(0, 0, 0);
   }
   25% {
     opacity: 1;
-    transform: translateY(-5vmin) translateX(-2vmin);
+    transform: translate3d(-2vmin, -5vmin, 0);
   }
   50% {
     opacity: 1;
-    transform: translateY(-15vmin) translateX(2vmin);
-    filter: blur(0.2vmin);
+    transform: translate3d(2vmin, -15vmin, 0);
   }
   75% {
-    transform: translateY(-20vmin) translateX(-2vmin);
-    filter: blur(0.2vmin);
+    transform: translate3d(-2vmin, -20vmin, 0);
   }
   100% {
-    transform: translateY(-30vmin);
+    transform: translate3d(0, -30vmin, 0);
     opacity: 0;
-    filter: blur(1vmin);
   }
 }
 @keyframes moving-flower-1 {
@@ -1745,17 +1743,22 @@ html, body {
   height: 140px;
   background: linear-gradient(135deg, #ff758f, #ff3366);
   border-radius: 12px;
-  transform: translate(-50%, -50%) scale(0);
+  transform: translate3d(-50%, -36%, 0) scale(0.88);
   opacity: 0;
   z-index: 30;
   cursor: pointer;
-  box-shadow: 0 20px 50px rgba(255, 51, 102, 0.55), 0 0 35px rgba(255, 209, 102, 0.45);
-  transition: transform 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.5s ease;
+  box-shadow: 0 12px 32px rgba(255, 51, 102, 0.4), 0 0 20px rgba(255, 209, 102, 0.3);
+  transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  pointer-events: none;
 }
 
 .envelope-box.show {
-  transform: translate(-50%, -50%) scale(1);
+  transform: translate3d(-50%, -50%, 0) scale(1);
   opacity: 1;
+  pointer-events: auto;
 }
 
 .envelope-box.open .envelope-flap {
@@ -1772,16 +1775,18 @@ html, body {
   border-right: 110px solid transparent;
   border-top: 76px solid #e01e5a;
   transform-origin: top;
-  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   z-index: 5;
-  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.25));
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .wax-seal {
   position: absolute;
   top: 52px;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate3d(-50%, 0, 0);
   width: 36px;
   height: 36px;
   background: radial-gradient(circle, #ffe382 0%, #ffd166 60%, #e09f3e 100%);
@@ -1790,9 +1795,10 @@ html, body {
   align-items: center;
   justify-content: center;
   font-size: 18px;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.35), 0 0 12px rgba(255, 209, 102, 0.6);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.3), 0 0 10px rgba(255, 209, 102, 0.5);
   z-index: 6;
   transition: opacity 0.4s ease;
+  will-change: opacity;
 }
 
 .envelope-box.open .wax-seal {
@@ -1818,11 +1824,14 @@ html, body {
   text-align: center;
   padding: 6px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-  transition: transform 0.5s ease;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .envelope-box.open .letter-preview {
-  transform: translateY(-24px);
+  transform: translate3d(0, -24px, 0);
 }
 
 .preview-title {

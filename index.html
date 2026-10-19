@@ -15,7 +15,7 @@
   <meta property="og:type" content="website">
 
   <!-- Stylesheet with Cache Busting -->
-  <link rel="stylesheet" href="css/style.css?v=20261020_v3">
+  <link rel="stylesheet" href="css/style.css?v=20261020_v4">
   <style>
     /* Chống cache trình duyệt cho hiệu ứng từng từ */
     .wish-line { display: block; margin-bottom: 4px; }
@@ -50,6 +50,19 @@
         color: #3b0c1c;
         text-shadow: none;
       }
+    }
+    /* GPU Hardware Acceleration cho Phong Thư */
+    .envelope-box {
+      transform: translate3d(-50%, -36%, 0) scale(0.88);
+      opacity: 0;
+      will-change: transform, opacity;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .envelope-box.show {
+      transform: translate3d(-50%, -50%, 0) scale(1);
+      opacity: 1;
     }
   </style>
 </head>
@@ -490,7 +503,7 @@
   <audio id="bgAudio" loop preload="auto"></audio>
 
   <!-- External Application Logic with Cache Busting -->
-  <script src="js/app.js?v=20261020_v3"></script>
+  <script src="js/app.js?v=20261020_v4"></script>
 </body>
 
 </html>
