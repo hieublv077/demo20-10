@@ -770,7 +770,7 @@ function openCardModal() {
   cardModal.classList.add('active');
 
   // Xuất hiện lời chúc từng từ mượt mà, lãng mạn
-  revealWishText(AppState.msg, 240);
+  revealWishText(AppState.msg, 320);
 }
 
 function closeCardModal() {
@@ -781,7 +781,7 @@ function closeCardModal() {
 }
 
 // Phong cách xuất hiện từng từ lãng mạn, mượt mà tuyệt đối không giật lag
-function revealWishText(text, initialDelay = 180) {
+function revealWishText(text, initialDelay = 280) {
   if (AppState.typewriterTimeout) clearTimeout(AppState.typewriterTimeout);
   cardWishText.innerHTML = '';
   
@@ -809,7 +809,7 @@ function revealWishText(text, initialDelay = 180) {
       const span = document.createElement('span');
       span.className = 'wish-word';
       span.textContent = word;
-      span.style.animationDelay = `${initialDelay + wordIndex * 80}ms`;
+      span.style.animationDelay = `${initialDelay + wordIndex * 110}ms`;
       lineContainer.appendChild(span);
       wordIndex++;
     });

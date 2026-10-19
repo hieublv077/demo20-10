@@ -2028,28 +2028,33 @@ html, body {
 .wish-word {
   display: inline-block;
   opacity: 0;
-  transform: translateY(7px) scale(0.96);
-  filter: blur(3px);
+  transform: translateY(8px) scale(0.92);
+  filter: blur(4px);
   margin-right: 0.28em;
-  animation: smoothWordFade 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: smoothWordFade 0.5s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
   will-change: opacity, transform, filter;
 }
 
 @keyframes smoothWordFade {
   0% {
     opacity: 0;
-    transform: translateY(7px) scale(0.96);
-    filter: blur(3px);
+    transform: translateY(8px) scale(0.92);
+    filter: blur(4px);
     color: #ff3366;
   }
-  60% {
-    color: #ff3366;
+  50% {
+    opacity: 1;
+    transform: translateY(-1px) scale(1.03);
+    filter: blur(0);
+    color: #ff2a6d;
+    text-shadow: 0 0 6px rgba(255, 51, 102, 0.35);
   }
   100% {
     opacity: 1;
     transform: translateY(0) scale(1);
     filter: blur(0);
     color: #3b0c1c;
+    text-shadow: none;
   }
 }
 
